@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "surface-container": "#edecff",
+                  "on-secondary": "#ffffff",
+                  "on-primary-container": "#fdf9ff",
+                  "inverse-primary": "#c1c1ff",
+                  "surface-container-lowest": "#ffffff",
+                  "on-tertiary": "#ffffff",
+                  "background": "#fbf8ff",
+                  "primary-container": "#5c5cff",
+                  "on-primary-fixed-variant": "#2a21d3",
+                  "error-container": "#ffdad6",
+                  "outline-variant": "#c6c4d8",
+                  "surface-dim": "#d8d8f1",
+                  "surface-bright": "#fbf8ff",
+                  "on-error-container": "#93000a",
+                  "on-tertiary-fixed": "#181c21",
+                  "on-tertiary-fixed-variant": "#43474d",
+                  "surface-container-low": "#f4f2ff",
+                  "surface-container-highest": "#e0e0fa",
+                  "on-tertiary-container": "#f8f9ff",
+                  "inverse-on-surface": "#f1efff",
+                  "on-primary-fixed": "#08006b",
+                  "tertiary-fixed": "#dfe2ea",
+                  "tertiary-container": "#6f737a",
+                  "on-surface-variant": "#464556",
+                  "surface-container-high": "#e6e6ff",
+                  "secondary": "#795900",
+                  "primary": "#413fe6",
+                  "on-error": "#ffffff",
+                  "primary-fixed-dim": "#c1c1ff",
+                  "secondary-container": "#ffbf00",
+                  "primary-fixed": "#e1dfff",
+                  "on-secondary-fixed-variant": "#5c4300",
+                  "on-secondary-fixed": "#261a00",
+                  "surface-variant": "#e0e0fa",
+                  "surface-tint": "#4643e9",
+                  "secondary-fixed-dim": "#fbbc00",
+                  "on-secondary-container": "#6d5000",
+                  "on-primary": "#ffffff",
+                  "inverse-surface": "#2d2f42",
+                  "on-background": "#181a2c",
+                  "error": "#ba1a1a",
+                  "tertiary-fixed-dim": "#c3c6ce",
+                  "surface": "#fbf8ff",
+                  "secondary-fixed": "#ffdfa0",
+                  "tertiary": "#565b61",
+                  "on-surface": "#181a2c",
+                  "outline": "#767587"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "sm": "8px",
+                  "md": "16px",
+                  "margin-mobile": "20px",
+                  "margin-desktop": "48px",
+                  "gutter": "16px",
+                  "xl": "32px",
+                  "lg": "24px",
+                  "base": "4px",
+                  "xs": "4px"
+          },
+          "fontFamily": {
+                  "label-sm": ["Work Sans"],
+                  "headline-lg-mobile": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "body-md": ["Work Sans"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "display-xl": ["Plus Jakarta Sans"],
+                  "body-lg": ["Work Sans"],
+                  "label-md": ["Work Sans"]
+          },
+          "fontSize": {
+                  "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                  "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .card-flip {
+      perspective: 1000px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+    }
+    .card-front {
+      background-color: #ffffff;
+      transform: rotateY(180deg);
+    }
+    .card-back {
+      background-color: #5c5cff;
+      color: white;
+    }
+    .reveal-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ffbf00;
+      animation: confetti-fall 2s linear infinite;
+    }
+    @keyframes confetti-fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full bg-surface shadow-[0_4px_12px_rgba(92,92,255,0.08)] flex items-center justify-between px-margin-mobile h-16 w-full z-50">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up high-quality professional user avatar portrait for a digital platform. The lighting is soft and directional, typical of a modern studio setting. The aesthetic is clean and minimalist, matching a bright light-mode UI with a sophisticated indigo and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMRCTPpNUE9Cmx9d6E1k-kILfJV26xKtMWA476yKC2U9lXxMXgkrHcUMGPufCNGDfQ1WHGmJaTfOXd5eJki_5OKcHLJKu4U4oIJzm1Q4ONJ3fVCfrKekQz5eIvZz6rb9FUVqMwaBwZJpDIcNRJH5WnRJPU1zeG9Blt-plpYE9n4dvSvCSF_UIJGXyQ3O27tduOMk2jpqrLevAAzHAmTTAE90DBqMX2YUPpt7Ac233WDuRBJvJDeClmDy0ZmdeCj4-1AVc-mv9PxDIK"/>
+</div>
+<span class="font-headline-md text-headline-md-mobile text-primary font-bold">Scrum Poker</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile max-w-4xl mx-auto space-y-lg">
+<!-- Results Highlight Section (Consensus & Average) -->
+<section class="grid grid-cols-2 gap-md">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_12px_rgba(92,92,255,0.08)] border-2 border-secondary-container flex flex-col items-center justify-center space-y-xs animate-bounce-short">
+<span class="text-label-md font-label-md text-secondary uppercase tracking-wider">Consensus</span>
+<span class="text-display-xl font-display-xl text-secondary-container">8</span>
+<div class="flex items-center gap-1 text-secondary text-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm">High Confidence</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_12px_rgba(92,92,255,0.08)] flex flex-col items-center justify-center space-y-xs">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Average</span>
+<span class="text-display-xl font-display-xl text-primary">7.2</span>
+<div class="flex items-center gap-1 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-sm">functions</span>
+<span class="font-label-sm">6 Votes Cast</span>
+</div>
+</div>
+</section>
+<!-- Vote Distribution Bar Chart -->
+<section class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_4px_12px_rgba(92,92,255,0.08)]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Vote Distribution</h3>
+<div class="space-y-md">
+<div class="flex items-center gap-md">
+<span class="w-8 font-label-md text-on-surface-variant text-right">3</span>
+<div class="flex-1 bg-surface-container h-8 rounded-full overflow-hidden relative">
+<div class="bg-primary h-full w-[16%] transition-all duration-1000 ease-out"></div>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-sm text-on-surface-variant">1 vote</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="w-8 font-label-md text-on-surface-variant text-right">5</span>
+<div class="flex-1 bg-surface-container h-8 rounded-full overflow-hidden relative">
+<div class="bg-primary h-full w-[33%] transition-all duration-1000 ease-out"></div>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-sm text-on-surface-variant">2 votes</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="w-8 font-label-md text-secondary text-right font-bold">8</span>
+<div class="flex-1 bg-secondary-container h-8 rounded-full overflow-hidden relative">
+<div class="bg-secondary h-full w-[51%] transition-all duration-1000 ease-out"></div>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-sm text-on-secondary-container font-bold">3 votes</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Player Grid with Revealed Cards -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Participants</h3>
+<span class="text-label-md text-on-surface-variant">6/6 Voted</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-md">
+<!-- Player 1 (Consensus) -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border-2 border-secondary-container flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A minimalist and friendly 3D avatar icon of a person with short brown hair against a soft blue background. The character has a professional yet approachable look, designed for a high-end agile project management application. The style is soft, tactile, and follows a modern digital illustration aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPkD8TncVF2U_qDa0CCirmCSpRYlCY_cWwks5zyctp98Q2z2QIPppLYX2BFMz9R3tgeKBL2Cr9-i7fvifpVGFOffWjuBZKNLp1vI9fDwAf7lloUo0nxtywi8-9iiDTI0EBzZYPIVC8n-xj705lJ8cciFnsTyf4rKfgVjxLSZbqWe9y7UfXRQff8lx61Iy6lnmuL0j_NfeZC3usMgIXD1ah2XoGEQj6tTH3zeukW05SRXHamcx3yjkGf4A7dkzuykoR_NMp-sYZlWbC"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Alex (Mod)</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-secondary-container">
+<span class="text-headline-lg text-secondary">8</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Player 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A clean, professional 3D character avatar with glasses and a friendly smile. The character is set against a soft violet background, fitting perfectly into a modern collaborative workspace UI. The artistic style is consistent with a high-energy, productivity-focused app, using soft lighting and vibrant yet professional tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSYPZs96HZ6SJxE2Dzoc5xjVLo06iTmbP_5xcrmHsVHKRdOTmW10zkCZPeiGy25zcZswSx7_eYLKe_FZQ1af-v-O6diAu_5IaAblAFef2CVOvRUAgTEolwH00Pa-PB1cv4u8zKc2Ss566nkhUhGjwaiSCfnst9SzX2MziQivIMdMQQNzr7i3KpaEuPwjhbQ7LveVFO_DxyjnFVH5UkmrlmkpPWEQUGNI38DEB6oZ_1rJh-vE18EbPSLFTbhoaC13bRfMz5Kfl519HS"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Sarah</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-primary-container">
+<span class="text-headline-lg text-primary">5</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Player 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border-2 border-secondary-container flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A vibrant 3D avatar design of a young professional with dark hair, rendered with a playful and energetic aesthetic. The lighting is bright and modern, creating soft highlights that emphasize the tactile quality of the UI. The colors are cohesive with a professional workspace app, using soft gradients and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANOxuqYF3GttI4624JW9-_oMXHpIzArkZx82GkgJRWc5_eQG0-KstjZAP8aUhlcJTVzEAwvCb02Pp866f_tKkf_vCCxfZLYGq0h4w_zsRfyD2Z93l7CI5_T_7h6U5knxX-nq82guo4wAUbA-HurikdoIfMZpGQWNwdoS110qX4PdeCIXWQh9jbRdkUy5SHpfRC4Huq8JgYyUSr2H1zSwbMUjXlIELSFsgKk9pGm-UjUhOLpCgMo9i8XZ5vAuZ6uQm921PUkgad4eyX"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">John</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-secondary-container">
+<span class="text-headline-lg text-secondary">8</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Player 4 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A minimalist 3D headshot of a team member with curly hair, styled for a modern productivity dashboard. The atmosphere is optimistic and collaborative, using a light-mode color scheme with indigo and warm yellow accents. The visual style is polished, with a focus on clean geometric shapes and soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV86nHajTu8bW-sd53nb9Cvxi0OlcjHJAgFK9woUv4EhkvF74qiBbActJES66brheLrA3sp3_AuqaaT8ko1rqrYhbT9g59tJJ9_8fTkHK70D8ocbdIKp4wl3Sovw7nuyOt4Melk1oYX82SBiSXN5_ZnhdHAWe4eQZRlmrcZ4S0PljhA8olDoM3CZn1hBJpglEXLV0C0GDrxz1k776QpZSQNyHPHZf9KUqw2okDw3JAB-o_Ore3IvhW2b2R1csOrq07fAFLbpPQGUtm"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Lisa</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-primary-container">
+<span class="text-headline-lg text-primary">3</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Player 5 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border-2 border-secondary-container flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A professional 3D user avatar with a calm expression and neutral features. The character is set against a clean, light grey background with high-key lighting that feels fresh and modern. The aesthetic is tailored for an agile team environment, prioritizing clarity, efficiency, and a sophisticated touch." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5sEXXcXZHNoLz6BNgfjxye2l9d4x-l2x1BknQpSCrB07DBcbzXEdgDLG1gBxZg2ojTvPlYMs01i6bw5WrkpKLpoy9yJS2WqzRj2eHao0bKOqvrDYgKUHl5P7WhEbTDFpZUFOPAFbiTsDPWgNUw4qGozxhYQDHVyW8EDzUPJfnMoblJ-a2HTK4qdJnA5NmNS7sgtvrpKnuYzhVNphHemLyP4d0z5XWxbzYONQhvqKHcnJ58p4vNGs7nTWROCA8MTiTM47ovl09duOM"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Tom</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-secondary-container">
+<span class="text-headline-lg text-secondary">8</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Player 6 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm flex flex-col items-center gap-sm">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+<img alt="Avatar" class="w-full h-full object-cover" data-alt="A stylish and minimalist 3D avatar of a designer with a beanie, created for a high-end collaborative tool. The lighting is soft and even, highlighting the clean textures and modern color palette. The overall mood is creative and focused, fitting into a productivity-themed user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJq_mWFtfnQ1HxGKBg-htsSjgXz2_0Sbz4BwWZu1RSbpHGijB6oX8_PASl4xL2431r75qpnNOBkfOjkh0qY4ExsCpa3bPBo4eeBm4y2sisqtxnRc54c0ZWH1KzN7zJfAGhtbrA_58L895HlgBd53bcXYj-YOUDFAWWAkP5Isj2dAmxUhOb8BUd5-MMdSAmPXF7OYJ--jnIbnlEgM7Cmy1ZweTbSg1tIgcv36je8f2o0cEKh8I2770ceofF9lc8J6hua8q8AbD-ZmVC"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-label-md text-on-surface">Mike</span>
+<div class="w-16 h-20 card-flip">
+<div class="card-inner">
+<div class="card-front flex items-center justify-center border-2 border-primary-container">
+<span class="text-headline-lg text-primary">5</span>
+</div>
+<div class="card-back flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">style</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Section -->
+<section class="flex flex-col gap-md pt-lg">
+<button class="bg-secondary-container text-on-secondary-container py-md px-xl rounded-xl font-headline-md shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-sm hover:brightness-105" id="newRoundBtn">
+<span class="material-symbols-outlined">restart_alt</span>
+        New Round
+      </button>
+<button class="bg-primary text-on-primary py-md px-xl rounded-xl font-headline-md shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-sm hover:brightness-110">
+<span class="material-symbols-outlined">save</span>
+        Confirm &amp; Save
+      </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface shadow-[0_-4px_12px_rgba(92,92,255,0.08)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-2xl px-4 py-1 active:scale-105 duration-200">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Lobby</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-105 duration-200">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-105 duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</div>
+</nav>
+<!-- Success Micro-interaction Script -->
+<script>
+    // Create confetti effect on load
+    function createConfetti() {
+      const container = document.body;
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = i % 2 === 0 ? '#ffbf00' : '#413fe6';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.animationDuration = (Math.random() * 1 + 1) + 's';
+        container.appendChild(confetti);
+        
+        // Remove after animation
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    // Trigger on load
+    window.onload = () => {
+      createConfetti();
+      
+      // Auto-flip simulation delay for impact
+      setTimeout(() => {
+        document.querySelectorAll('.card-inner').forEach(card => {
+          card.style.transform = 'rotateY(0deg)';
+        });
+      }, 500);
+    };
+
+    // New Round Button logic
+    document.getElementById('newRoundBtn').addEventListener('click', function() {
+      const btn = this;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Resetting...';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined">restart_alt</span> New Round';
+        // In a real app, this would reset state and route back to voting
+        alert('Resetting voting room for a new round!');
+        location.reload();
+      }, 800);
+    });
+  </script>
+</body></html>

@@ -1,0 +1,29 @@
+# Coolify: Scrum Planning Poker (Spring Boot serves API + static UI).
+#
+# Deploy in Coolify:
+# 1. New Resource → Docker Compose → set Compose file to docker-compose.coolify.yml
+# 2. Set env in Coolify: SERVER_PORT=8089, ROOM_INACTIVITY_HOURS=1, optional JAVA_OPTS / TZ
+# 3. Assign your public domain to service `app` on container port 8089
+# 4. Do not publish host ports here; Coolify Traefik proxies to `expose` on the stack network
+# 5. Enable WebSocket support on the domain if Coolify exposes that toggle (/ws/rooms/*)
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${COMPOSE_PROJECT_NAME:-scrum-poking-game}:${IMAGE_TAG:-latest}
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8089}
+      SCRUM_POKING_ROOM_INACTIVITY_HOURS: ${ROOM_INACTIVITY_HOURS:-1}
+      JAVA_OPTS: ${JAVA_OPTS:--XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0}
+      TZ: ${TZ:-UTC}
+    expose:
+      - "8089"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:8089/healthz >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 60s
+    restart: unless-stopped

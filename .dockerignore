@@ -1,0 +1,10 @@
+.git/
+.gradle/
+.idea/
+backend/build/
+build/
+frontend/dist/
+frontend/node_modules/
+*.log
+.DS_Store
+

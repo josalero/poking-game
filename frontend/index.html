@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Real-time Scrum planning poker for agile teams. Create a room, invite your team, and estimate stories together." />
+    <meta name="theme-color" content="#413fe6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#10111a" media="(prefers-color-scheme: dark)" />
+    <title>Scrum Poker</title>
+    <script>
+      (function () {
+        var stored = localStorage.getItem("scrum-poking:theme");
+        var theme =
+          stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

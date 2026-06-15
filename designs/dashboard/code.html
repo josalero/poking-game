@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scrum Poker Lobby</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "surface-container": "#edecff",
+                  "on-secondary": "#ffffff",
+                  "on-primary-container": "#fdf9ff",
+                  "inverse-primary": "#c1c1ff",
+                  "surface-container-lowest": "#ffffff",
+                  "on-tertiary": "#ffffff",
+                  "background": "#fbf8ff",
+                  "primary-container": "#5c5cff",
+                  "on-primary-fixed-variant": "#2a21d3",
+                  "error-container": "#ffdad6",
+                  "outline-variant": "#c6c4d8",
+                  "surface-dim": "#d8d8f1",
+                  "surface-bright": "#fbf8ff",
+                  "on-error-container": "#93000a",
+                  "on-tertiary-fixed": "#181c21",
+                  "on-tertiary-fixed-variant": "#43474d",
+                  "surface-container-low": "#f4f2ff",
+                  "surface-container-highest": "#e0e0fa",
+                  "on-tertiary-container": "#f8f9ff",
+                  "inverse-on-surface": "#f1efff",
+                  "on-primary-fixed": "#08006b",
+                  "tertiary-fixed": "#dfe2ea",
+                  "tertiary-container": "#6f737a",
+                  "on-surface-variant": "#464556",
+                  "surface-container-high": "#e6e6ff",
+                  "secondary": "#795900",
+                  "primary": "#413fe6",
+                  "on-error": "#ffffff",
+                  "primary-fixed-dim": "#c1c1ff",
+                  "secondary-container": "#ffbf00",
+                  "primary-fixed": "#e1dfff",
+                  "on-secondary-fixed-variant": "#5c4300",
+                  "on-secondary-fixed": "#261a00",
+                  "surface-variant": "#e0e0fa",
+                  "surface-tint": "#4643e9",
+                  "secondary-fixed-dim": "#fbbc00",
+                  "on-secondary-container": "#6d5000",
+                  "on-primary": "#ffffff",
+                  "inverse-surface": "#2d2f42",
+                  "on-background": "#181a2c",
+                  "error": "#ba1a1a",
+                  "tertiary-fixed-dim": "#c3c6ce",
+                  "surface": "#fbf8ff",
+                  "secondary-fixed": "#ffdfa0",
+                  "tertiary": "#565b61",
+                  "on-surface": "#181a2c",
+                  "outline": "#767587"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "sm": "8px",
+                  "md": "16px",
+                  "margin-mobile": "20px",
+                  "margin-desktop": "48px",
+                  "gutter": "16px",
+                  "xl": "32px",
+                  "lg": "24px",
+                  "base": "4px",
+                  "xs": "4px"
+          },
+          "fontFamily": {
+                  "label-sm": ["Work Sans"],
+                  "headline-lg-mobile": ["Plus Jakarta Sans"],
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "body-md": ["Work Sans"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "display-xl": ["Plus Jakarta Sans"],
+                  "body-lg": ["Work Sans"],
+                  "label-md": ["Work Sans"]
+          },
+          "fontSize": {
+                  "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                  "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                  "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #fbf8ff;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .card-shadow {
+      box-shadow: 0 4px 12px rgba(92, 92, 255, 0.08);
+    }
+    .squishy-press:active {
+      transform: scale(0.96);
+    }
+    .active-nav-glow {
+      box-shadow: 0 0 15px rgba(92, 92, 255, 0.2);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface bg-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-margin-mobile h-16 bg-surface shadow-[0_4px_12px_rgba(92,92,255,0.08)]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVb9pmcAQVo3vFNCEfomrSrs1dj7RY5EyueXnYo5W4jZE4298q8fmEuo-hCaN7f7IJUoasbxP9VcV6JH0vnpi72K7GwLWcYbqr6nv3LBUarK5TWvqyJzXjn0KW9rwZUUSQA2NLNhdmagr8L4n8NmopNIDTQSMYDhCYno-WeDG5Wg3UyC1g1NIUa0eHWh0P-bLL1Sf5zNbJp47YpN2HjX9zP2FR4sIl4bfh4ssuA7tBk15dG_AYEMRCRsvn_-QI3yBISah3dJ4O9a8K"/>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile text-primary font-bold">Scrum Poker</h1>
+</div>
+<button aria-label="Settings" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+</header>
+<main class="pt-24 px-margin-mobile max-w-2xl mx-auto">
+<!-- Hero / Create Room Action -->
+<section class="mb-xl">
+<div class="relative overflow-hidden rounded-xl bg-primary-container p-lg flex flex-col items-start gap-md text-on-primary-container shadow-lg">
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+</div>
+<div class="z-10">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mb-xs">Ready for a new Sprint?</h2>
+<p class="font-body-md opacity-90 mb-md">Start a new session and invite your team to estimate tasks efficiently.</p>
+<button class="flex items-center gap-sm bg-secondary-container text-on-secondary-container px-lg py-3 rounded-full font-label-md squishy-press transition-transform shadow-md">
+<span class="material-symbols-outlined">add</span>
+            Create New Room
+          </button>
+</div>
+</div>
+</section>
+<!-- Recent Rooms Section -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-on-surface">Recent Rooms</h3>
+<button class="text-primary font-label-md">View all</button>
+</div>
+<div class="space-y-md">
+<!-- Room Card 1 -->
+<div class="bg-surface rounded-xl p-md flex items-center justify-between border border-outline-variant card-shadow hover:border-primary transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">developer_board</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md-mobile text-on-surface">Frontend Sprint #42</h4>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>8 Players</span>
+</div>
+</div>
+</div>
+<button class="bg-surface-container-low text-primary px-lg py-2 rounded-full font-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+            Join
+          </button>
+</div>
+<!-- Room Card 2 -->
+<div class="bg-surface rounded-xl p-md flex items-center justify-between border border-outline-variant card-shadow hover:border-primary transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">api</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md-mobile text-on-surface">Backend Architecture</h4>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>5 Players</span>
+</div>
+</div>
+</div>
+<button class="bg-surface-container-low text-primary px-lg py-2 rounded-full font-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+            Join
+          </button>
+</div>
+<!-- Room Card 3 -->
+<div class="bg-surface rounded-xl p-md flex items-center justify-between border border-outline-variant card-shadow hover:border-primary transition-colors group opacity-80">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">brush</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md-mobile text-on-surface">UI Refactor Sync</h4>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-[16px]">groups</span>
+<span>3 Players</span>
+</div>
+</div>
+</div>
+<button class="bg-surface-container-low text-primary px-lg py-2 rounded-full font-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+            Join
+          </button>
+</div>
+</div>
+</section>
+<!-- Empty State Graphic (Decorative) -->
+<div class="mt-xl py-lg text-center flex flex-col items-center">
+<div class="w-48 h-48 mb-md relative rounded-full overflow-hidden bg-surface-container-low flex items-center justify-center">
+<img class="w-full h-full object-cover grayscale opacity-20" data-alt="A minimalist group of professional software developers collaborating around a glowing digital table in a clean, modern high-tech office environment. The scene is bathed in a soft indigo and white light, reflecting a sense of focused, energetic teamwork. Geometric shapes and abstract data patterns float subtly in the background to emphasize the agile planning theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDqvBm7NNhhEazKHp4qvaPMfBGI0_hGd_wlxSTSp6JjVUClqgkxBpuW3hF6pW6ePTpWHDop8UHwUKeIK_UzcjSt7YjHWrvCMniZIOc2IIwJqJ3Ti_USdnbm5md2ZvKAhoiIC904xCfUuqkkq3IRQiEijgxtoLJ-AatII3eLQrMNfSW4Fy8Rd4tarM8TGt-OoWKcKJgmA0a4q094wbayeDDlUY-jVlbzUBFbJp6pDM7z1KMEMbQfDSiE-M4kmsCcBd6UOtJ0qif3fCZ"/>
+<span class="material-symbols-outlined text-primary text-6xl absolute" style="font-variation-settings: 'FILL' 1;">playing_cards</span>
+</div>
+<p class="font-body-md text-on-surface-variant italic">Waiting for your next big idea.</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface rounded-t-xl shadow-[0_-4px_12px_rgba(92,92,255,0.08)]">
+<!-- Active Destination: Lobby -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-2xl px-4 py-1 active:scale-105 duration-200 active-nav-glow" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-label-md text-label-md">Lobby</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-105 duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-105 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+    // Micro-interactions for room cards
+    document.querySelectorAll('.bg-surface.rounded-xl').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.add('border-primary');
+        setTimeout(() => {
+          // Visual feedback only for demo
+        }, 300);
+      });
+    });
+
+    // Ripple effect simulation on primary buttons
+    const createBtn = document.querySelector('.bg-secondary-container');
+    createBtn.addEventListener('click', (e) => {
+      const x = e.clientX - e.target.offsetLeft;
+      const y = e.clientY - e.target.offsetTop;
+      
+      let ripple = document.createElement('span');
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      ripple.className = "absolute w-2 h-2 bg-white/20 rounded-full animate-ping";
+      createBtn.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 1000);
+    });
+  </script>
+</body></html>

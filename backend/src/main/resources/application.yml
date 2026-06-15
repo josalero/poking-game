@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: scrum-poking-game
+
+server:
+  port: 8089
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+scrum-poking:
+  room-inactivity-hours: 1
+

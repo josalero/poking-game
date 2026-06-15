@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: scrum-poking-game:local
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8089}
+      SCRUM_POKING_ROOM_INACTIVITY_HOURS: ${ROOM_INACTIVITY_HOURS:-1}
+      JAVA_OPTS: ${JAVA_OPTS:-}
+    ports:
+      - "${APP_PORT:-8089}:${SERVER_PORT:-8089}"
+    restart: unless-stopped
+
+# Production on Coolify: use docker-compose.coolify.yml (see .env.coolify.example)

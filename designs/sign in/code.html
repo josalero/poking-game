@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scrum Poker - Join Session</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#edecff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#fdf9ff",
+                    "inverse-primary": "#c1c1ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fbf8ff",
+                    "primary-container": "#5c5cff",
+                    "on-primary-fixed-variant": "#2a21d3",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c6c4d8",
+                    "surface-dim": "#d8d8f1",
+                    "surface-bright": "#fbf8ff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#181c21",
+                    "on-tertiary-fixed-variant": "#43474d",
+                    "surface-container-low": "#f4f2ff",
+                    "surface-container-highest": "#e0e0fa",
+                    "on-tertiary-container": "#f8f9ff",
+                    "inverse-on-surface": "#f1efff",
+                    "on-primary-fixed": "#08006b",
+                    "tertiary-fixed": "#dfe2ea",
+                    "tertiary-container": "#6f737a",
+                    "on-surface-variant": "#464556",
+                    "surface-container-high": "#e6e6ff",
+                    "secondary": "#795900",
+                    "primary": "#413fe6",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#c1c1ff",
+                    "secondary-container": "#ffbf00",
+                    "primary-fixed": "#e1dfff",
+                    "on-secondary-fixed-variant": "#5c4300",
+                    "on-secondary-fixed": "#261a00",
+                    "surface-variant": "#e0e0fa",
+                    "surface-tint": "#4643e9",
+                    "secondary-fixed-dim": "#fbbc00",
+                    "on-secondary-container": "#6d5000",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2d2f42",
+                    "on-background": "#181a2c",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed-dim": "#c3c6ce",
+                    "surface": "#fbf8ff",
+                    "secondary-fixed": "#ffdfa0",
+                    "tertiary": "#565b61",
+                    "on-surface": "#181a2c",
+                    "outline": "#767587"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "48px",
+                    "gutter": "16px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Work Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Work Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "body-lg": ["Work Sans"],
+                    "label-md": ["Work Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .avatar-option.active {
+            @apply ring-4 ring-primary ring-offset-2;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .squishy-press {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .squishy-press:active {
+            transform: scale(0.92);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Hero Decorative Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-40">
+<div class="absolute top-[10%] left-[15%] w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+<div class="absolute bottom-[20%] right-[10%] w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s"></div>
+</div>
+<!-- Main Registration Canvas -->
+<main class="min-h-screen flex flex-col items-center justify-center px-margin-mobile py-xl">
+<!-- Logo / App Identity -->
+<div class="mb-xl flex flex-col items-center gap-sm">
+<div class="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center shadow-[0_8px_20px_rgba(92,92,255,0.2)] animate-float">
+<span class="material-symbols-outlined text-white text-[40px]" style="font-variation-settings: 'FILL' 1;">playing_cards</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary font-extrabold tracking-tight">Scrum Poker</h1>
+</div>
+<!-- Registration Card -->
+<div class="w-full max-w-md bg-white rounded-3xl p-lg shadow-[0_4px_24px_rgba(92,92,255,0.06)] border border-surface-container-high transition-all hover:shadow-[0_12px_32px_rgba(92,92,255,0.1)]">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Ready to Estimate?</h2>
+<p class="font-body-md text-on-surface-variant">Enter your name and pick an avatar to join the sprint planning session.</p>
+</div>
+<form class="space-y-lg" id="registrationForm">
+<!-- Name Input -->
+<div class="space-y-xs">
+<label class="block font-label-md text-on-surface-variant ml-1" for="username">Your Name</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">person</span>
+</div>
+<input class="block w-full pl-xl pr-md py-4 bg-surface-container-low border-transparent rounded-2xl font-body-lg focus:ring-2 focus:ring-primary focus:bg-white focus:border-primary transition-all placeholder:text-outline-variant" id="username" name="username" placeholder="e.g. Agile Master" required="" type="text"/>
+</div>
+</div>
+<!-- Avatar Picker -->
+<div class="space-y-md">
+<label class="block font-label-md text-on-surface-variant ml-1">Choose an Avatar (Optional)</label>
+<div class="grid grid-cols-4 gap-md" id="avatarGrid">
+<!-- Avatar 1 -->
+<button class="avatar-option group relative squishy-press outline-none" type="button">
+<div class="w-full aspect-square rounded-2xl overflow-hidden bg-surface-container border-2 border-transparent transition-all group-hover:border-primary/30">
+<img alt="Avatar option 1" class="w-full h-full object-cover" data-alt="A high-quality 3D rendered avatar character with a friendly expression, featuring a modern casual outfit. The character has short dark hair and is set against a clean, solid soft indigo background. The artistic style is professional, polished, and fits perfectly within a modern digital productivity application's light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyeyl7Gqe_gkyDWcm6l-NuFw-0Y3lG4Kvjqzwo5H_znq_2vTvvJUe0uosRpgqVGnf5ObnXqmgFDEdu06DUYsSVeh0PBz-qKJ2o3W_kd7DQ29WQzb7XH2kFRA_G0Bm_oEh9z_7nrIYL0YBDr-I98CpOKILRvBvfmaxLrQIKeY-5OC5MEWLNNAHSzDrHEP7pUfDDnEtVxwNszM0UDP0al5OeS37gPOT_RkNsIR6CSpAYqQWpSiXNqNBA7I77-KcPOcohLsKa5062ei88"/>
+</div>
+</button>
+<!-- Avatar 2 -->
+<button class="avatar-option group relative squishy-press outline-none" type="button">
+<div class="w-full aspect-square rounded-2xl overflow-hidden bg-surface-container border-2 border-transparent transition-all group-hover:border-primary/30">
+<img alt="Avatar option 2" class="w-full h-full object-cover" data-alt="A stylized 3D avatar of a person with stylish glasses and a vibrant mustard yellow sweater. The background is a soft, warm cream color that complements the modern professional UI. The lighting is soft and diffused, creating a welcoming and collaborative personality for a planning poker session." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBajCbno3ALFCytQIBK1Duq5rT7JKpoQ82QhnnM3ZtwKvhy0ZKwq6HKhdaMP7UpMFwQ42Dd6ZyGoX5wE3bDU83lyyOWWUc6MNRkFHyYKR4hfMyYgSKGCqg-2EHqyyaM8xwVsJhsIPuUjn8wsnjuf4HWHJSdNle9CtqK3vNkxgsoqErQnwVEnU-Sc0o8LwBtLc6T3kJ-zIMB7TolS1sULfCuaBbA-OZXclSknTaEHd0XzJ8D-tdPaPdRLK2zpaurr9Cd4h14aqvWwYp6"/>
+</div>
+</button>
+<!-- Avatar 3 -->
+<button class="avatar-option group relative squishy-press outline-none" type="button">
+<div class="w-full aspect-square rounded-2xl overflow-hidden bg-surface-container border-2 border-transparent transition-all group-hover:border-primary/30">
+<img alt="Avatar option 3" class="w-full h-full object-cover" data-alt="A clean and expressive 3D character avatar with long wavy hair and a bright, energetic smile. The lighting is studio-quality, casting gentle shadows that give depth to the facial features. The aesthetic is playful yet clean, using a palette that aligns with a high-energy collaborative team environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALeXUYCNhP0Y6U1c4q5CXQp6e0KbOmekJ7uH88ymQw_jZQ6KSrXOoIcN0vZv7uHASjdFBMTjtBxktamDvTfvN-A9n6xKYVzTsFaqJiIwAGYMWwjAvHYVvYmbRsQwNpwk7xDKEppZnkes2a600TZ3xFpRlm5zpD1a-QwYCCgNhAajafj-ve6XeXaOiIkPfR5uAO_UwFKO2fv3wy9g2KuQsVB16TtDk5m6l5wNOmGPnvVgmbNc8FBbASbR5mxsqSmzYuFe7Ln8vtolbo"/>
+</div>
+</button>
+<!-- Avatar 4 -->
+<button class="avatar-option group relative squishy-press outline-none" type="button">
+<div class="w-full aspect-square rounded-2xl overflow-hidden bg-surface-container border-2 border-transparent transition-all group-hover:border-primary/30">
+<div class="w-full h-full flex items-center justify-center bg-surface-container-highest text-outline group-hover:text-primary">
+<span class="material-symbols-outlined text-[32px]">add_a_photo</span>
+</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-md">
+<button class="w-full bg-primary-container text-white py-lg rounded-2xl font-headline-md shadow-[0_6px_20px_rgba(92,92,255,0.25)] hover:shadow-[0_10px_24px_rgba(92,92,255,0.35)] transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-sm" type="submit">
+<span>Join Game</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</form>
+<p class="mt-lg text-center font-label-sm text-outline">
+                By joining, you agree to our <a class="underline hover:text-primary" href="#">Terms of Service</a>
+</p>
+</div>
+<!-- Session Status Info (Asymmetric Layout element) -->
+<div class="mt-xl max-w-sm w-full flex items-center gap-md p-md bg-surface-container/50 rounded-2xl border border-dashed border-outline-variant">
+<div class="relative flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-dim overflow-hidden">
+<img alt="Active user" class="w-full h-full object-cover" data-alt="A small circular avatar of a team member with a professional yet friendly appearance. The image is clean and bright, optimized for a dashboard UI element showing active participants in a real-time collaborative workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq_VB8VJIH-TJ7tABkPDq8h9vBCm80FoIc_dC-1e8Qqf6bT5kEvZ9dSUqPshb7rs_jqenjLOUXY6Tw3EIadBzEBkz0_0U3AaDcxmkwhSFDrawZ-OAbCUpUmEiRnehMAL6rcpJBwJSeLMqpdZA2TRQRl10GMBKNDEgBNaz0Z6raZGMMExg0GQsFV28xycz9_30RuE4kSpvCAKGs6wF0J5H2SyLBHkymLYQPevXkFptMf-pI8fUULhXosBjWAsq961WrAaJm-TCLqJIR"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-dim overflow-hidden">
+<img alt="Active user" class="w-full h-full object-cover" data-alt="A miniature profile photo of a smiling professional in a modern workspace environment. The lighting is natural and high-key, providing a crisp and clean look that fits the indigo and white color scheme of the Scrum Poker application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgMep-jI3grypGAboMeGAZLrZjxG4-LTQjGdkYHp32rDOqvS9yiImB3LxvnTvYOhGFeXCb6s_rUZRwb_NCykdy-zxd2gUsV7lw5L6hycb185IMFJYk20mORESzV1KSlFvxS_ErCfJdlRf0JM5SOa-ekXS3ZVH2kAbqn43VqJ8mNgYZGxN_5IPinanUAzPJqr9_RZJqt3XosO58-WCNButhfiATV_eQovdw-rx4Il_A3Ye4FbmDQQLEuB9Zkmytht3KV-4LmNB3dNMV"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-[10px] text-white font-bold">
+                    +5
+                </div>
+</div>
+<div class="flex-1">
+<p class="font-label-sm text-on-surface-variant">7 developers are currently in the lobby</p>
+</div>
+</div>
+</main>
+<!-- Footer Copyright -->
+<footer class="w-full py-lg text-center font-label-sm text-outline-variant">
+        © 2024 Scrum Poker Inc. • Velocity meets Clarity.
+    </footer>
+<script>
+        // Micro-interactions for Avatar Selection
+        const avatarOptions = document.querySelectorAll('.avatar-option');
+        avatarOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                avatarOptions.forEach(o => o.querySelector('div').classList.remove('ring-4', 'ring-primary', 'border-primary'));
+                opt.querySelector('div').classList.add('ring-4', 'ring-primary', 'border-primary');
+                
+                // Haptic-like visual feedback
+                opt.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    opt.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+
+        // Form Submission Animation
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Entering Room...</span>
+            `;
+
+            // Simulate navigation delay
+            setTimeout(() => {
+                alert('Welcome to the Sprint Planning session!');
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+            }, 1500);
+        });
+
+        // Subtle parallax mouse effect
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            document.querySelectorAll('.animate-float').forEach(el => {
+                el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body></html>
