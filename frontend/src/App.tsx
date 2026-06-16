@@ -35,6 +35,25 @@ function votingParticipants(participants: ParticipantView[]): ParticipantView[] 
   return participants.filter((participant) => participant.role !== "OBSERVER");
 }
 
+function nextQueuedStory(snapshot: RoomSnapshot): StoryView | null {
+  return snapshot.stories.find((story) => story.status === "PENDING") ?? null;
+}
+
+function focusStory(snapshot: RoomSnapshot | null, activeStory: StoryView | null): StoryView | null {
+  if (!snapshot) {
+    return null;
+  }
+  return activeStory ?? nextQueuedStory(snapshot);
+}
+
+function showStoryFocusBar(snapshot: RoomSnapshot | null, activeStory: StoryView | null): boolean {
+  const story = focusStory(snapshot, activeStory);
+  if (!story || !snapshot) {
+    return false;
+  }
+  return snapshot.activeRound?.status !== "REVEALED";
+}
+
 const VOTING_DURATION_SECONDS = 10;
 
 const AVATAR_CLASSES = ["avatar-indigo", "avatar-amber", "avatar-ink", "avatar-sky", "avatar-plum", "avatar-mint"];
@@ -1109,6 +1128,8 @@ function RoomWorkspace({
     }
     return snapshot.stories.find((story) => story.id === snapshot.room.currentStoryId) ?? null;
   }, [snapshot]);
+  const storyInFocus = useMemo(() => focusStory(snapshot, activeStory), [snapshot, activeStory]);
+  const storyBarVisible = showStoryFocusBar(snapshot, activeStory);
   const isFacilitator = session.role === "FACILITATOR";
   const facilitator = snapshot?.participants.find((participant) => participant.role === "FACILITATOR");
   const currentParticipant = snapshot?.participants.find((participant) => participant.id === session.participantId);
@@ -1147,7 +1168,7 @@ function RoomWorkspace({
       )}
 
       <main className="workspace" id="main-content">
-        <section className="room-intro">
+        <section className={`room-intro ${snapshot?.activeRound?.status === "REVEALED" ? "results-focus" : ""}`}>
           <div>
             <div className="moderator-chip">
               <PlayerAvatar avatarKey={facilitator?.avatarKey} facilitator name={moderator} index={0} size="small" />
@@ -1176,8 +1197,11 @@ function RoomWorkspace({
             <LoadingList count={2} />
           </div>
         ) : (
-        <div className="workspace-grid">
+        <div className={`workspace-grid ${snapshot.activeRound?.status === "REVEALED" ? "results-focus" : ""}`}>
           <section className="main-column">
+            {storyBarVisible && storyInFocus && (
+              <StoryFocusBar activeRound={snapshot.activeRound} story={storyInFocus} />
+            )}
             <StoryStage
               activeRound={snapshot?.activeRound ?? null}
               activeStory={activeStory}
@@ -1185,8 +1209,17 @@ function RoomWorkspace({
               sendCommand={sendCommand}
               session={session}
               snapshot={snapshot}
+              storyInFocus={storyInFocus}
             />
-            <VotingTable activeRound={snapshot?.activeRound ?? null} session={session} snapshot={snapshot} />
+            <VotingTable
+              activeRound={snapshot?.activeRound ?? null}
+              activeStory={activeStory}
+              isFacilitator={isFacilitator}
+              sendCommand={sendCommand}
+              session={session}
+              snapshot={snapshot}
+              storyInFocus={storyInFocus}
+            />
           </section>
 
           <aside className="side-column">
@@ -1202,13 +1235,39 @@ function RoomWorkspace({
   );
 }
 
+function StoryFocusBar({
+  story,
+  activeRound
+}: {
+  story: StoryView;
+  activeRound: ActiveRoundView | null | undefined;
+}) {
+  const isQueued = !activeRound || story.status === "PENDING";
+  const eyebrow = isQueued ? "Up next" : `Round ${activeRound.roundNumber}`;
+  const status = activeRound?.status ?? story.status;
+
+  return (
+    <section className="story-focus-bar" aria-labelledby="story-focus-title">
+      <div className="story-focus-inner">
+        <div>
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 id="story-focus-title">{story.title}</h2>
+          {story.description && <p className="story-focus-description">{story.description}</p>}
+        </div>
+        <span className={`status-chip ${status.toLowerCase()}`}>{displayStatus(status)}</span>
+      </div>
+    </section>
+  );
+}
+
 function StoryStage({
   activeRound,
   activeStory,
   isFacilitator,
   sendCommand,
   session,
-  snapshot
+  snapshot,
+  storyInFocus
 }: {
   activeRound: ActiveRoundView | null;
   activeStory: StoryView | null;
@@ -1216,6 +1275,7 @@ function StoryStage({
   sendCommand: (command: string, payload?: unknown) => void;
   session: StoredSession;
   snapshot: RoomSnapshot | null;
+  storyInFocus: StoryView | null;
 }) {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
@@ -1235,6 +1295,10 @@ function StoryStage({
   }
 
   if (!activeStory || !activeRound) {
+    if (storyInFocus) {
+      return null;
+    }
+
     const actions = facilitatorVotingActions(snapshot);
     const host = snapshot.participants.find((participant) => participant.role === "FACILITATOR");
 
@@ -1265,19 +1329,12 @@ function StoryStage({
     );
   }
 
-  return (
-    <section className={`stage ${activeRound.status === "REVEALED" ? "revealed" : ""}`} aria-labelledby="active-story-title">
-      <div className="story-heading">
-        <div>
-          <p className="eyebrow">Round {activeRound.roundNumber}</p>
-          <h2 id="active-story-title">{activeStory.title}</h2>
-          {activeStory.description && <p>{activeStory.description}</p>}
-        </div>
-        <div className="story-heading-actions">
-          <span className={`status-chip ${activeRound.status.toLowerCase()}`}>{displayStatus(activeRound.status)}</span>
-        </div>
-      </div>
+  if (activeRound.status === "REVEALED") {
+    return null;
+  }
 
+  return (
+    <section className="stage voting-stage" aria-label="Voting cards">
       {canVote && (
         <div className="estimation-deck" aria-label="Voting cards">
           {snapshot.room.votingScale.map((value) => (
@@ -1297,15 +1354,13 @@ function StoryStage({
       )}
 
       <p className="vote-note">
-        {activeRound.status === "REVEALED"
-          ? "Votes are revealed."
-          : session.role === "OBSERVER"
-            ? "Observers do not vote."
-            : currentParticipant?.hasVoted
-              ? "Your vote is in."
-              : canVote
-                ? "Select your estimate."
-                : "Waiting for the facilitator."}
+        {session.role === "OBSERVER"
+          ? "Observers do not vote."
+          : currentParticipant?.hasVoted
+            ? "Your vote is in."
+            : canVote
+              ? "Select your estimate."
+              : "Waiting for the facilitator."}
       </p>
     </section>
   );
@@ -1453,12 +1508,20 @@ function StoriesPanel({
 
 function VotingTable({
   activeRound,
+  activeStory,
+  isFacilitator,
+  sendCommand,
   session,
-  snapshot
+  snapshot,
+  storyInFocus
 }: {
   activeRound: ActiveRoundView | null;
+  activeStory: StoryView | null;
+  isFacilitator: boolean;
+  sendCommand: (command: string, payload?: unknown) => void;
   session: StoredSession;
   snapshot: RoomSnapshot | null;
+  storyInFocus: StoryView | null;
 }) {
   const votesByParticipant = useMemo(() => {
     const map = new Map<string, string>();
@@ -1466,23 +1529,52 @@ function VotingTable({
     return map;
   }, [activeRound?.votes]);
 
-  if (!snapshot || !activeRound) {
+  if (!snapshot) {
+    return null;
+  }
+
+  if (!activeRound && storyInFocus) {
+    return (
+      <section className="results-panel vote-queue-panel" aria-labelledby="votes-title">
+        <div className="results-header">
+          <h2 id="votes-title">Votes</h2>
+        </div>
+        <p className="vote-queue-message">
+          {isFacilitator ? "Start the timer when everyone is ready to estimate this story." : "Waiting for the facilitator to start the timer."}
+        </p>
+        {isFacilitator && <StartTimerAction layout="compact" sendCommand={sendCommand} snapshot={snapshot} />}
+      </section>
+    );
+  }
+
+  if (!activeRound) {
     return null;
   }
 
   const voters = votingParticipants(snapshot.participants);
+  const isRevealed = activeRound.status === "REVEALED";
 
   return (
-    <section className={activeRound.status === "REVEALED" ? "results-panel revealed-results" : "results-panel"} aria-labelledby="votes-title">
+    <section className={isRevealed ? "results-panel revealed-results" : "results-panel"} aria-labelledby="votes-title">
       <div className="results-header">
-        <h2 id="votes-title">{activeRound.status === "REVEALED" ? "Results" : "Votes"}</h2>
+        <div className="results-title-block">
+          {isRevealed && activeStory ? (
+            <>
+              <p className="eyebrow">Round {activeRound.roundNumber}</p>
+              <h2 id="votes-title">{activeStory.title}</h2>
+              {activeStory.description && <p className="results-story-description">{activeStory.description}</p>}
+            </>
+          ) : (
+            <h2 id="votes-title">Votes</h2>
+          )}
+        </div>
         {activeRound.summary && <SummaryStats summary={activeRound.summary} />}
       </div>
       {activeRound.summary && <DistributionBars summary={activeRound.summary} />}
-      <div className={activeRound.status === "REVEALED" ? "revealed-grid" : "vote-table"}>
+      <div className={isRevealed ? "revealed-grid" : "vote-table"}>
         {voters.map((participant, index) => {
           const revealedValue = votesByParticipant.get(participant.id);
-          if (activeRound.status === "REVEALED") {
+          if (isRevealed) {
             return (
               <article className={participant.id === session.participantId ? "revealed-card self" : "revealed-card"} key={participant.id}>
                 <PlayerAvatar avatarKey={participant.avatarKey} index={index} name={participant.displayName} size="regular" />

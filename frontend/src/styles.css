@@ -1246,6 +1246,80 @@ a {
   line-height: 1.08;
 }
 
+.room-intro.results-focus .moderator-chip,
+.room-intro.results-focus .room-lede,
+.room-intro.results-focus h1,
+.room-intro.results-focus .chip-row,
+.room-intro.results-focus .participants-avatar-strip {
+  display: none;
+}
+
+.room-intro.results-focus {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.workspace-grid.results-focus {
+  gap: 12px;
+}
+
+.workspace-grid.results-focus .main-column {
+  gap: 12px;
+}
+
+.story-focus-bar {
+  border: 1px solid var(--outline-variant);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 14px 18px;
+}
+
+.story-focus-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.story-focus-bar h2 {
+  margin: 4px 0 0;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.2;
+}
+
+.story-focus-description {
+  margin: 6px 0 0;
+  max-width: 60ch;
+  color: var(--on-surface-variant);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.status-chip.pending {
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}
+
+.stage.voting-stage {
+  padding: 16px 20px;
+}
+
+.vote-queue-panel .results-header {
+  margin-bottom: 8px;
+}
+
+.vote-queue-message {
+  margin: 0 0 12px;
+  color: var(--on-surface-variant);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.vote-queue-panel .story-start-action.compact {
+  margin-top: 0;
+}
+
 .eyebrow {
   color: var(--link);
   font-size: 12px;
@@ -1307,10 +1381,11 @@ a {
 }
 
 .stage {
-  min-height: 420px;
+  min-height: auto;
 }
 
 .stage.empty-state {
+  min-height: 280px;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -1619,7 +1694,25 @@ a {
 
 .results-header {
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.results-title-block h2 {
+  margin: 4px 0 0;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.2;
+}
+
+.results-story-description {
+  margin: 6px 0 0;
+  max-width: 60ch;
+  color: var(--on-surface-variant);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.revealed-results .distribution-panel {
+  margin: 8px 0 12px;
 }
 
 .summary-cards {
