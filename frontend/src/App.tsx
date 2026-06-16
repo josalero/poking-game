@@ -31,6 +31,10 @@ const NAV_TARGETS: Record<AppTab, string> = {
   Profile: "#/profile"
 };
 
+function votingParticipants(participants: ParticipantView[]): ParticipantView[] {
+  return participants.filter((participant) => participant.role !== "OBSERVER");
+}
+
 const VOTING_DURATION_SECONDS = 10;
 
 const AVATAR_CLASSES = ["avatar-indigo", "avatar-amber", "avatar-ink", "avatar-sky", "avatar-plum", "avatar-mint"];
@@ -1274,31 +1278,34 @@ function StoryStage({
         </div>
       </div>
 
-      <div className="estimation-deck" aria-label="Voting cards">
-        {snapshot.room.votingScale.map((value) => (
-          <button
-            className={selectedValue === value ? "vote-card selected" : "vote-card"}
-            disabled={!canVote}
-            key={value}
-            type="button"
-            onClick={() => {
-              setSelectedValue(value);
-              sendCommand("vote.cast", { roundId: activeRound.id, value });
-            }}
-          >
-            <VoteCardLabel value={value} />
-          </button>
-        ))}
-      </div>
+      {canVote && (
+        <div className="estimation-deck" aria-label="Voting cards">
+          {snapshot.room.votingScale.map((value) => (
+            <button
+              className={selectedValue === value ? "vote-card selected" : "vote-card"}
+              key={value}
+              type="button"
+              onClick={() => {
+                setSelectedValue(value);
+                sendCommand("vote.cast", { roundId: activeRound.id, value });
+              }}
+            >
+              <VoteCardLabel value={value} />
+            </button>
+          ))}
+        </div>
+      )}
 
       <p className="vote-note">
         {activeRound.status === "REVEALED"
           ? "Votes are revealed."
-          : currentParticipant?.hasVoted
-            ? "Your vote is in."
-            : canVote
-              ? "Select your estimate."
-              : "Waiting for the facilitator."}
+          : session.role === "OBSERVER"
+            ? "Observers do not vote."
+            : currentParticipant?.hasVoted
+              ? "Your vote is in."
+              : canVote
+                ? "Select your estimate."
+                : "Waiting for the facilitator."}
       </p>
     </section>
   );
@@ -1311,11 +1318,14 @@ function ParticipantsPanel({
   currentParticipantId?: string;
   snapshot: RoomSnapshot | null;
 }) {
+  const voters = snapshot ? votingParticipants(snapshot.participants) : [];
+  const votedCount = voters.filter((participant) => participant.hasVoted).length;
+
   return (
     <section className="panel">
       <div className="section-heading compact">
         <h2>Live Voting</h2>
-        <span>{snapshot ? `${snapshot.participants.filter((participant) => participant.hasVoted).length}/${snapshot.participants.length} voted` : "Loading"}</span>
+        <span>{snapshot ? `${votedCount}/${voters.length} voted` : "Loading"}</span>
       </div>
       <div className="participant-grid">
         {snapshot?.participants.map((participant, index) => (
@@ -1335,6 +1345,8 @@ function ParticipantCard({
   index: number;
   currentParticipantId?: string;
 }) {
+  const expectsVote = participant.role !== "OBSERVER";
+
   return (
     <article
       className={[
@@ -1348,7 +1360,7 @@ function ParticipantCard({
         .join(" ")}
     >
       <div className="participant-avatar-wrap">
-        {!participant.hasVoted && <span className="pulse-ring" aria-hidden="true" />}
+        {expectsVote && !participant.hasVoted && <span className="pulse-ring" aria-hidden="true" />}
         <PlayerAvatar
           avatarKey={participant.avatarKey}
           facilitator={participant.role === "FACILITATOR"}
@@ -1357,8 +1369,17 @@ function ParticipantCard({
           name={participant.displayName}
           size="large"
         />
-        <span className="vote-badge" aria-label={participant.hasVoted ? "Voted" : "Waiting"}>
-          {participant.hasVoted ? "V" : ""}
+        <span
+          className="vote-badge"
+          aria-label={
+            participant.role === "OBSERVER"
+              ? "Observer"
+              : participant.hasVoted
+                ? "Voted"
+                : "Waiting"
+          }
+        >
+          {participant.role === "OBSERVER" ? "O" : participant.hasVoted ? "V" : ""}
         </span>
       </div>
       <strong>{participant.displayName}</strong>
@@ -1449,7 +1470,7 @@ function VotingTable({
     return null;
   }
 
-  const voters = snapshot.participants.filter((participant) => participant.role !== "OBSERVER");
+  const voters = votingParticipants(snapshot.participants);
 
   return (
     <section className={activeRound.status === "REVEALED" ? "results-panel revealed-results" : "results-panel"} aria-labelledby="votes-title">

@@ -114,7 +114,9 @@ class PlanningPokerServiceTest {
 
         var hiddenSnapshot = service.snapshot(room.roomCode());
         assertThat(hiddenSnapshot.activeRound().votes()).isEmpty();
-        assertThat(hiddenSnapshot.participants()).allSatisfy(participant -> assertThat(participant.hasVoted()).isTrue());
+        assertThat(hiddenSnapshot.participants())
+                .filteredOn(participant -> participant.role() != ParticipantRole.OBSERVER)
+                .allSatisfy(participant -> assertThat(participant.hasVoted()).isTrue());
 
         service.revealVotes(facilitator, activeRound.id());
 
@@ -141,7 +143,9 @@ class PlanningPokerServiceTest {
         assertThat(snapshot.activeRound().id()).isNotEqualTo(firstRound.id());
         assertThat(snapshot.activeRound().status()).isEqualTo(VoteRoundStatus.VOTING);
         assertThat(snapshot.activeRound().votes()).isEmpty();
-        assertThat(snapshot.participants().getFirst().hasVoted()).isFalse();
+        assertThat(snapshot.participants())
+                .filteredOn(participant -> participant.role() != ParticipantRole.OBSERVER)
+                .allSatisfy(participant -> assertThat(participant.hasVoted()).isFalse());
     }
 
     @Test
