@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { ThemeToggle } from "./theme";
-import { createRoom, clearAllSessions, clearRoomSession, fetchRecentRooms, fetchRoomMetadata, fetchSnapshot, joinRoom, listStoredRoomCodes, roomUrl, sessionStorageKey, signOutToLobby } from "./api";
+import { createRoom, fetchRecentRooms, fetchRoomMetadata, fetchSnapshot, joinRoom, listStoredRoomCodes, roomUrl, sessionStorageKey, signOutToLobby } from "./api";
 import { AVATAR_KEYS, avatarUrl, defaultRoomName, isAvatarKey, isCoffeeVote, type AvatarKey } from "./avatars";
 import { clearProfile, defaultProfileAvatar, defaultProfileName, readProfile, saveProfile } from "./profile";
 import { connectionLabel, EmptyState, FieldHint, LoadingList, PageIntro, SkipLink } from "./ui";
@@ -740,9 +740,7 @@ function ProfilePage() {
   const [savedRooms, setSavedRooms] = useState(() => listStoredRoomCodes());
 
   function handleSignOutEverywhere() {
-    clearAllSessions();
-    setSavedRooms([]);
-    window.location.hash = "/";
+    signOutToLobby();
   }
 
   function handleClearProfile() {
@@ -819,7 +817,7 @@ function ProfilePage() {
 
           <div className="settings-card danger-zone">
             <strong>Sign out everywhere</strong>
-            <p className="muted">Clears all saved room sessions on this browser.</p>
+            <p className="muted">Clears saved profile and all room sessions on this browser.</p>
             <button className="ghost-action danger-action" type="button" onClick={handleSignOutEverywhere}>
               Sign out everywhere
             </button>
@@ -946,10 +944,8 @@ function RoomPage({ roomCode }: { roomCode: string }) {
       session={session}
       snapshot={snapshot}
       onLeave={() => {
-        clearRoomSession(roomCode);
-        setSession(null);
         socketRef.current?.close();
-        signOutToLobby(false);
+        signOutToLobby();
       }}
     />
   );

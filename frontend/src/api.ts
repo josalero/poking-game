@@ -1,4 +1,5 @@
 import type { JoinRoomResponse, ParticipantRole, RoomListItem, RoomMetadata, RoomSnapshot } from "./types";
+import { clearProfile } from "./profile";
 
 type ApiErrorBody = {
   code?: string;
@@ -103,11 +104,11 @@ export function listStoredRoomCodes(): string[] {
   return codes.sort();
 }
 
-export function signOutToLobby(clearAll = true): void {
-  if (clearAll) {
-    clearAllSessions();
-  }
+export function signOutToLobby(): void {
+  clearAllSessions();
+  clearProfile();
   window.location.hash = "/";
+  window.location.reload();
 }
 
 export function roomUrl(roomCode: string): string {

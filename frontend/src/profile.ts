@@ -48,7 +48,8 @@ export function saveProfile(displayName: string, avatarKey: AvatarKey): void {
 }
 
 export function clearProfile(): void {
-  document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax`;
+  const expired = "Thu, 01 Jan 1970 00:00:00 GMT";
+  document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; expires=${expired}; SameSite=Lax`;
 }
 
 export function defaultProfileName(): string {

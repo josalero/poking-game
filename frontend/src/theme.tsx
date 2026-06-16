@@ -3,13 +3,14 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "scrum-poking:theme";
+const DEFAULT_THEME: Theme = "light";
 
 export function readTheme(): Theme {
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === "light" || stored === "dark") {
     return stored;
   }
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return DEFAULT_THEME;
 }
 
 export function applyThemeToDocument(theme: Theme) {
