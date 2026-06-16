@@ -241,7 +241,7 @@ function useVotingSecondsRemaining(createdAt: string | undefined, active: boolea
   return secondsLeft;
 }
 
-function VotingTimerOverlay({
+function VotingTimerAutoReveal({
   activeRound,
   isFacilitator,
   sendCommand
@@ -266,15 +266,31 @@ function VotingTimerOverlay({
     sendCommand("vote.reveal", { roundId: activeRound.id });
   }, [activeRound.id, isFacilitator, secondsLeft, sendCommand, votingActive]);
 
+  return null;
+}
+
+function VotingTimerBanner({
+  activeRound,
+  isFacilitator,
+  sendCommand
+}: {
+  activeRound: ActiveRoundView;
+  isFacilitator: boolean;
+  sendCommand: (command: string, payload?: unknown) => void;
+}) {
+  const votingActive = activeRound.status === "VOTING";
+  const secondsLeft = useVotingSecondsRemaining(activeRound.createdAt, votingActive);
+
   if (!votingActive || secondsLeft <= 0) {
     return null;
   }
 
   return (
-    <div className="voting-countdown-overlay" role="dialog" aria-live="polite" aria-label="Voting countdown">
-      <div className="voting-countdown-card">
-        <p className="eyebrow">Voting ends in</p>
-        <div className={`voting-countdown-value ${secondsLeft <= 3 ? "urgent" : ""}`}>{secondsLeft}</div>
+    <div className="voting-timer-banner" aria-live="polite" role="status">
+      <div className="voting-timer-banner-inner">
+        <span className="voting-timer-label">Voting ends in</span>
+        <span className={secondsLeft <= 3 ? "voting-timer-digit urgent" : "voting-timer-digit"}>{secondsLeft}</span>
+        <span className="voting-timer-hint">Select your card below while time remains.</span>
         {isFacilitator && (
           <button className="ghost-action reveal-now-action" type="button" onClick={() => sendCommand("vote.reveal", { roundId: activeRound.id })}>
             Reveal now
@@ -1120,7 +1136,10 @@ function RoomWorkspace({
       </header>
 
       {snapshot?.activeRound?.status === "VOTING" && snapshot.activeRound.createdAt && (
-        <VotingTimerOverlay activeRound={snapshot.activeRound} isFacilitator={isFacilitator} sendCommand={sendCommand} />
+        <>
+          <VotingTimerAutoReveal activeRound={snapshot.activeRound} isFacilitator={isFacilitator} sendCommand={sendCommand} />
+          <VotingTimerBanner activeRound={snapshot.activeRound} isFacilitator={isFacilitator} sendCommand={sendCommand} />
+        </>
       )}
 
       <main className="workspace" id="main-content">
@@ -1202,7 +1221,6 @@ function StoryStage({
 
   const canVote = Boolean(activeRound && activeRound.status === "VOTING" && session.role !== "OBSERVER");
   const currentParticipant = snapshot?.participants.find((participant) => participant.id === session.participantId);
-  const secondsLeft = useVotingSecondsRemaining(activeRound?.createdAt, activeRound?.status === "VOTING");
 
   if (!snapshot) {
     return (
@@ -1253,11 +1271,6 @@ function StoryStage({
         </div>
         <div className="story-heading-actions">
           <span className={`status-chip ${activeRound.status.toLowerCase()}`}>{displayStatus(activeRound.status)}</span>
-          {activeRound.status === "VOTING" && activeRound.createdAt && secondsLeft > 0 && (
-            <span className="inline-timer" aria-live="polite">
-              {secondsLeft}s left
-            </span>
-          )}
         </div>
       </div>
 

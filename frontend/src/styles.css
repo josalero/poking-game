@@ -1161,41 +1161,58 @@ a {
   padding: 6px 10px;
 }
 
-.voting-countdown-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  place-items: center;
-  background: var(--countdown-overlay);
-  backdrop-filter: blur(4px);
-  padding: 20px;
-}
-
-.voting-countdown-card {
-  display: grid;
-  gap: 12px;
-  justify-items: center;
-  min-width: min(320px, 100%);
-  border-radius: 32px;
+.voting-timer-banner {
+  position: sticky;
+  top: 64px;
+  z-index: 15;
+  border-bottom: 1px solid var(--outline-variant);
   background: var(--surface);
-  box-shadow: var(--deep-shadow);
-  padding: 32px 40px;
-  text-align: center;
+  box-shadow: var(--shadow);
+  padding: 10px clamp(20px, 4vw, 48px);
 }
 
-.voting-countdown-value {
+.voting-timer-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.voting-timer-label {
+  color: var(--on-surface-variant);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.voting-timer-digit {
+  min-width: 2ch;
   color: var(--countdown-digit);
   font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(64px, 16vw, 96px);
+  font-size: clamp(28px, 5vw, 40px);
   font-weight: 800;
-  line-height: 1;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
-.voting-countdown-value.urgent {
+.voting-timer-digit.urgent {
   animation: timer-pulse 0.8s ease-in-out infinite;
   color: var(--error);
+}
+
+.voting-timer-hint {
+  color: var(--on-surface-variant);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.voting-timer-banner .reveal-now-action {
+  margin-top: 0;
+  margin-left: auto;
 }
 
 .inline-timer {
@@ -2087,6 +2104,16 @@ textarea:focus-visible {
 
   .join-screen-actions {
     justify-content: flex-end;
+  }
+
+  .voting-timer-hint {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .voting-timer-banner .reveal-now-action {
+    margin-left: 0;
+    width: 100%;
   }
 
   .recent-room-card .primary-action {
